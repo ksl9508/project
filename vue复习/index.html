@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-infinite-scroll@2.0.2/vue-infinite-scroll.js"></script>
+  <style>
+    .infinite-list-wrapper {
+      height: 200px;
+      border: 1px dashed #abcdef;
+      overflow: scroll;
+    }
+    .list {
+      
+    }
+  </style>
+</head>
+<!-- https://github.com/ElemeFE/vue-infinite-scroll -->
+<body>
+  <div id="app">
+    <div class="infinite-list-wrapper">
+      <ul class="list" v-infinite-scroll="load" infinite-scroll-disabled="disabled" infinite-scroll-distance="10">
+        <li v-for="i in count" class="list-item">{{ i }}</li>
+      </ul>
+      <p v-if="loading">加载中...</p>
+      <p v-if="noMore">没有更多了</p>
+    </div>
+  </div>
+
+  <script>
+    const app = new Vue({
+      directives: {infiniteScroll},
+      el: '#app',
+      template: '',
+      data() {
+        return {
+          count: 10,
+          loading: false
+        }
+      },
+      computed: {
+        noMore() {
+          return this.count >= 20
+        },
+        disabled() {
+          return this.loading || this.noMore
+        }
+      },
+      methods: {
+        load() {
+          this.loading = true
+          setTimeout(() => {
+            this.count += 2
+            this.loading = false
+          }, 2000)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
